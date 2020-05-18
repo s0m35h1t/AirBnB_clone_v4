@@ -1,11 +1,11 @@
-$('document').ready(() => {
-  const api = `http://${window.location.hostname}`;
+$('document').ready(function () {
+  const api = 'http://' + window.location.hostname;
 
-  $.get(api + ':5001:/api/v1/status/', (res) => {
+  $.get(api + ':5001:/api/v1/status/', function (response) {
     if (response.status === 'OK') {
-      $('#api_status').addClass('available');
+      $('DIV#api_status').addClass('available');
     } else {
-      $('#api_status').removeClass('available');
+      $('DIV#api_status').removeClass('available');
     }
   });
 
@@ -18,8 +18,8 @@ $('document').ready(() => {
     success: appendPlaces
   });
 
-  const states = {};
-  $('.locations > UL > H2 > INPUT[type="checkbox"]').change(() => {
+  let states = {};
+  $('.locations > UL > H2 > INPUT[type="checkbox"]').change(function () {
     if ($(this).is(':checked')) {
       states[$(this).attr('data-id')] = $(this).attr('data-name');
     } else {
@@ -33,8 +33,8 @@ $('document').ready(() => {
     }
   });
 
-  const cities = {};
-  $('.locations > UL > UL > LI INPUT[type="checkbox"]').change(() => {
+  let cities = {};
+  $('.locations > UL > UL > LI INPUT[type="checkbox"]').change(function () {
     if ($(this).is(':checked')) {
       cities[$(this).attr('data-id')] = $(this).attr('data-name');
     } else {
@@ -48,7 +48,7 @@ $('document').ready(() => {
     }
   });
 
-  const amenities = {};
+  let amenities = {};
   $('.amenities INPUT[type="checkbox"]').change(function () {
     if ($(this).is(':checked')) {
       amenities[$(this).attr('data-id')] = $(this).attr('data-name');
@@ -67,9 +67,9 @@ $('document').ready(() => {
       url: api + ':5001/api/v1/places_search/',
       type: 'POST',
       data: JSON.stringify({
-        states: Object.keys(states),
-        cities: Object.keys(cities),
-        amenities: Object.keys(amenities)
+        'states': Object.keys(states),
+        'cities': Object.keys(cities),
+        'amenities': Object.keys(amenities)
       }),
       contentType: 'application/json',
       dataType: 'json',
@@ -78,7 +78,7 @@ $('document').ready(() => {
   });
 });
 
-function addPlaces (data) {
+function appendPlaces (data) {
   $('SECTION.places').empty();
   $('SECTION.places').append(data.map(place => {
     return `<ARTICLE>

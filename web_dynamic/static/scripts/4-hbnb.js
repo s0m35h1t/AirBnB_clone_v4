@@ -1,7 +1,7 @@
-$('document').ready(() => {
-  const api = `http://${window.location.hostname}`;
+$('document').ready(function () {
+  const api = 'http://' + window.location.hostname;
 
-  $.get(api + ':5001:/api/v1/status/', (res) => {
+  $.get(api + ':5001:/api/v1/status/', function (res) {
     if (res.status === 'OK') {
       $('DIV#api_status').addClass('available');
     } else {
@@ -15,11 +15,11 @@ $('document').ready(() => {
     data: '{}',
     contentType: 'application/json',
     dataType: 'json',
-    success: appendPlaces
+    success: addPlaces
   });
 
-  const amenities = {};
-  $('INPUT[type="checkbox"]').change(() => {
+  let amenities = {};
+  $('INPUT[type="checkbox"]').change(function () {
     if ($(this).is(':checked')) {
       amenities[$(this).attr('data-id')] = $(this).attr('data-name');
     } else {
@@ -32,11 +32,13 @@ $('document').ready(() => {
     }
   });
 
-  $('BUTTON').click(() => {
+  $('BUTTON').click(function () {
     $.ajax({
       url: api + ':5001/api/v1/places_search/',
       type: 'POST',
-      data: JSON.stringify({ amenities: Object.keys(amenities) }),
+      data: JSON.stringify({
+        'amenities': Object.keys(amenities)
+      }),
       contentType: 'application/json',
       dataType: 'json',
       success: appendPlaces
@@ -44,7 +46,7 @@ $('document').ready(() => {
   });
 });
 
-function appendPlaces (data) {
+function addPlaces(data) {
   $('SECTION.places').empty();
   $('SECTION.places').append(data.map(place => {
     return `<ARTICLE>

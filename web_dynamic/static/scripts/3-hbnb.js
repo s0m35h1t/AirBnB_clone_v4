@@ -1,11 +1,11 @@
-$('document').ready(() => {
+$('document').ready(function () {
   const api = 'http://' + window.location.hostname;
 
-  $.get(api + ':5001:/api/v1/status/', (res) => {
+  $.get(api + ':5001:/api/v1/status/', function (res) {
     if (res.status === 'OK') {
-      $('#api_status').addClass('available');
+      $('DIV#api_status').addClass('available');
     } else {
-      $('#api_status').removeClass('available');
+      $('DIV#api_status').removeClass('available');
     }
   });
 
@@ -15,7 +15,7 @@ $('document').ready(() => {
     data: '{}',
     contentType: 'application/json',
     dataType: 'json',
-    success: (data) => {
+    success: function (data) {
       $('SECTION.places').append(data.map(place => {
         return `<ARTICLE>
                   <DIV class="title">
@@ -49,8 +49,8 @@ $('document').ready(() => {
     }
   });
 
-  const amenities = {};
-  $('INPUT[type="checkbox"]').change(() => {
+  let amenities = {};
+  $('INPUT[type="checkbox"]').change(function () {
     if ($(this).is(':checked')) {
       amenities[$(this).attr('data-id')] = $(this).attr('data-name');
     } else {
